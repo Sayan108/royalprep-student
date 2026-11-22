@@ -33,7 +33,7 @@ export function Home() {
     <header className="home-top">
       <div className="home-wrap home-top-inner">
         <Link className="home-brand" to="/"><img src={logo} alt="" /><span>RoyalPrep</span></Link>
-        <nav aria-label="Main navigation"><a href="#study">Study tools</a><a href="#access">Access</a><a href="#faq">FAQ</a></nav>
+        <nav aria-label="Main navigation"><a href="#study">Study tools</a><Link to="/pricing">Pricing</Link><a href="#access">Access</a><a href="#faq">FAQ</a></nav>
         <Link className="home-button home-secondary" to="/practice">Study workspace <span aria-hidden="true">→</span></Link>
       </div>
     </header>
@@ -57,8 +57,8 @@ export function Home() {
         </div>
       </section>
       <section className="home-wrap home-row" id="access">
-        <div><h2>Part A access</h2><p>Practice is currently available without a subscription. Plans and billing are not yet available.</p></div>
-        <Link className="home-text-link" to="/practice">Start practising <span aria-hidden="true">→</span></Link>
+        <div><h2>Part A access</h2><p>Practice is currently available without a subscription. View the temporary plans before checkout is connected.</p></div>
+        <Link className="home-text-link" to="/pricing">View plans <span aria-hidden="true">→</span></Link>
       </section>
       <section className="home-wrap home-faq" id="faq">
         <h2>Frequently asked questions</h2>

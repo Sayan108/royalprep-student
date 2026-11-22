@@ -15,9 +15,20 @@ import { Mistakes } from '../pages/mistakes/index'
 import { Flashcards } from '../pages/flashcards/index'
 import { ChapterReader } from '../pages/chapter-reader/index'
 import { StudentProfile } from '../pages/student-profile/index'
+import { Pricing } from '../pages/pricing/index'
+import { EligibilityCalculator } from '../pages/eligibility-calculator/index'
+import { OrientationGuide } from '../pages/orientation-guide/index'
+import { LearningResources } from '../pages/learning-resources/index'
+import { DailyChallenge } from '../pages/daily-challenge/index'
 
 export const studentRoutes = <>
   <Route path="/" element={<Home/>}/>
+  <Route path="/pricing" element={<Pricing/>}/>
+  <Route path="/tools/eligibility" element={<EligibilityCalculator/>}/>
+  <Route path="/tools/orientation" element={<OrientationGuide/>}/>
+  <Route path="/app/resources" element={<RequireSession><LearningResources/></RequireSession>}/>
+  <Route path="/app/daily-quiz" element={<RequireSession><DailyChallenge/></RequireSession>}/>
+  <Route path="/app/daily-mock" element={<RequireSession><DailyChallenge mock/></RequireSession>}/>
   <Route path="/course" element={<RequireSession><ChapterLibrary publicCatalog/></RequireSession>}/>
   <Route path="/course/:chapter" element={<RequireSession><ChapterPreview/></RequireSession>}/>
   <Route path="/tools" element={<RequireSession><Tools/></RequireSession>}/>
