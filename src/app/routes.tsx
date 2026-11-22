@@ -20,6 +20,7 @@ import { EligibilityCalculator } from '../pages/eligibility-calculator/index'
 import { OrientationGuide } from '../pages/orientation-guide/index'
 import { LearningResources } from '../pages/learning-resources/index'
 import { DailyChallenge } from '../pages/daily-challenge/index'
+import { Notifications } from '../pages/notifications/index'
 
 export const studentRoutes = <>
   <Route path="/" element={<Home/>}/>
@@ -44,6 +45,7 @@ export const studentRoutes = <>
   <Route path="/app/mistakes" element={<RequireSession><Mistakes/></RequireSession>}/>
   <Route path="/app/flashcards" element={<RequireSession><Flashcards/></RequireSession>}/>
   <Route path="/app/profile" element={<RequireSession><StudentProfile/></RequireSession>}/>
+  <Route path="/app/notifications" element={<RequireSession><Notifications/></RequireSession>}/>
   <Route path="/tools/flashcards" element={<RequireSession><Flashcards/></RequireSession>}/>
   <Route path="/study/library" element={<RequireSession><ChapterLibrary/></RequireSession>}/>
   <Route path="/practice" element={<RequireSession><Practice/></RequireSession>}/>

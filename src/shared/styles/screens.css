@@ -29,6 +29,25 @@
 .sidebar-label { margin: 0 10px 12px; color: #c27e34; font-size: 11px; font-weight: 800; letter-spacing: .12em; }
 .screen-sidebar a { display: block; padding: 12px; border-radius: 6px; font-size: 14px; font-weight: 700; }
 .screen-sidebar a.active { background: #f7ebc1; text-decoration: none; }
+.notification-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; margin-left: 8px; padding: 0 5px; border-radius: 12px; background: #a44030; color: white; font-size: 11px; }
+.notification-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 8px 0 20px; }
+.notification-heading p { margin: 5px 0 0; }
+.notification-filters { display: flex; gap: 8px; margin-bottom: 14px; }
+.notification-filter { min-height: 38px; padding: 8px 14px; border: 1px solid #e8dfca; border-radius: 20px; background: white; color: #14213b; }
+.notification-filter.active { border-color: #111d37; background: #111d37; color: white; }
+.notification-list { display: grid; gap: 12px; padding: 0; list-style: none; }
+.notification-item { display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+.notification-copy { min-width: 0; }
+.notification-title { display: flex; align-items: center; gap: 10px; }
+.notification-title h2 { margin: 0; }
+.notification-state { padding: 4px 8px; border-radius: 20px; background: #eef1f5; color: #5a6276; font-size: 11px; font-weight: 700; }
+.notification-unread { border-left: 4px solid #c29a29; }
+.notification-unread .notification-state { background: #fff5dc; color: #875d00; }
+.notification-copy p { margin: 8px 0; }
+.notification-copy time { color: #78839a; font-size: 12px; }
+.notification-empty { margin-top: 14px; }
+.notification-empty h2 { margin-bottom: 6px; }
+.notification-empty p { margin: 0; }
 .screen-content { min-width: 0; max-width: none; width: 100%; padding: 30px 28px 60px; overflow-wrap: anywhere; }
 .screen-content h1 { margin: 0; font: 700 34px Georgia, serif; }
 .screen-kicker { margin: 0 0 6px; color: #6b7b95; font-size: 11px; line-height: 1; font-weight: 800; letter-spacing: .1em; }
@@ -124,6 +143,8 @@
   .screen-content { padding: 22px 16px 48px; }
   .screen-content h1 { font-size: 30px; }
   .practice-heading, .bank-heading { align-items: flex-start; }
+  .notification-heading, .notification-item { align-items: flex-start; flex-direction: column; }
+  .notification-item > button { width: 100%; }
   .bank-heading { flex-direction: column; }
   .import-bar { flex-direction: column; align-items: stretch; }
   .bank-filters { grid-template-columns: 1fr 1fr; }

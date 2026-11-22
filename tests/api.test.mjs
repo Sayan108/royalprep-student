@@ -8,21 +8,50 @@ test('API client preserves request, error and session behavior', async t => {
   const originalAdapter = axios.defaults.adapter
   const originalWindow = globalThis.window
   const originalStorage = globalThis.sessionStorage
+  const originalLocalStorage = globalThis.localStorage
   const values = new Map()
+  const notificationValues = new Map()
   globalThis.sessionStorage = {
     getItem: key => values.get(key) ?? null,
     setItem: (key, value) => values.set(key, value),
     removeItem: key => values.delete(key),
+  }
+  globalThis.localStorage = {
+    getItem: key => notificationValues.get(key) ?? null,
+    setItem: (key, value) => notificationValues.set(key, value),
   }
   globalThis.window = new EventTarget()
   t.after(async () => {
     axios.defaults.adapter = originalAdapter
     globalThis.window = originalWindow
     globalThis.sessionStorage = originalStorage
+    globalThis.localStorage = originalLocalStorage
     await server.close()
   })
 
   const { api, ApiError } = await server.ssrLoadModule('/src/shared/api/index.ts')
+  const notifications = await server.ssrLoadModule('/src/shared/notifications/index.ts')
+  await t.test('stores notifications and updates read and unread state', () => {
+    values.set('rp-student-email', 'student@example.test')
+    notifications.addStudentNotification('Mock results', 'Your mock has been marked.')
+    let items = notifications.getStudentNotifications()
+    assert.equal(items.length, 1)
+    assert.equal(items[0].title, 'Mock results')
+    assert.equal(items[0].read, false)
+
+    notifications.setStudentNotificationRead(items[0].id, true)
+    items = notifications.getStudentNotifications()
+    assert.equal(items[0].read, true)
+
+    notifications.setStudentNotificationRead(items[0].id, false)
+    notifications.markAllStudentNotificationsRead()
+    assert.equal(notifications.getStudentNotifications()[0].read, true)
+
+    values.set('rp-student-email', 'another-student@example.test')
+    assert.deepEqual(notifications.getStudentNotifications(), [])
+    values.set('rp-student-email', 'student@example.test')
+    assert.equal(notifications.getStudentNotifications()[0].title, 'Mock results')
+  })
   await t.test('sends JSON and the appropriate bearer token', async () => {
     values.set('rp-student', 'student-token')
     axios.defaults.adapter = async config => {
