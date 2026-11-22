@@ -2,10 +2,10 @@ import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import brandMark from '../assets/royalprep-mark.svg'
+import { chapterNotesEnabled } from '../config'
 
 export function ScreenLayout({ children, admin = false, navigation = true }: { children: ReactNode; admin?: boolean; navigation?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const chapterNotesEnabled = import.meta.env.VITE_CHAPTER_NOTES_ENABLED === 'true'
   return <div className={'screen-layout' + (admin ? ' screen-admin' : '')}>
     <header className="screen-header">
       <Link to={admin ? '/admin' : '/'} className="screen-brand"><img className="brand-mark" src={brandMark} alt=""/><span>Royal<span>Prep</span></span></Link>

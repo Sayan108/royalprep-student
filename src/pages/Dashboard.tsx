@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ErrorMessage } from '../components/ErrorMessage'
 import { ScreenLayout } from '../components/ScreenLayout'
+import { chapterNotesEnabled } from '../config'
 import type { StoredStudyPlan } from '../models/studyPlan'
 import type { ChapterSummary } from '../models/chapter'
 import type { AttemptSummary } from '../models/attempt'
@@ -15,7 +16,6 @@ export function Dashboard() {
   const [cardError, setCardError] = useState('')
   const [attempts, setAttempts] = useState<AttemptSummary[]>()
   const [attemptError, setAttemptError] = useState('')
-  const chapterNotesEnabled = import.meta.env.VITE_CHAPTER_NOTES_ENABLED === 'true'
   const [chapterNotes, setChapterNotes] = useState<ChapterSummary[]>()
   const [chapterError, setChapterError] = useState('')
   useEffect(() => {

@@ -1,3 +1,5 @@
+import { apiOrigin } from '../config'
+
 export class ApiError extends Error {
   constructor(message: string, readonly status: number) {
     super(message)
@@ -5,7 +7,7 @@ export class ApiError extends Error {
 }
 
 export async function api<T>(path: string, init: RequestInit = {}, admin = false, student = false): Promise<T> {
-  const response = await fetch((import.meta.env.VITE_API_URL ?? '') + '/api' + path, {
+  const response = await fetch(apiOrigin + '/api' + path, {
     ...init, headers: { 'Content-Type': 'application/json', ...(admin ? { Authorization: 'Bearer ' + sessionStorage.getItem('rp-admin') } : {}), ...(student ? { Authorization: 'Bearer ' + sessionStorage.getItem('rp-student') } : {}), ...init.headers },
   })
   const body = await response.json()

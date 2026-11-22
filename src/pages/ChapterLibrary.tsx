@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ErrorMessage } from '../components/ErrorMessage'
 import { ScreenLayout } from '../components/ScreenLayout'
+import { chapterNotesEnabled } from '../config'
 import { api } from '../services/api'
 import type { ChapterSummary } from '../models/chapter'
 import './library.css'
@@ -9,7 +10,6 @@ import './library.css'
 type Chapter = { name: string; questionCount: number }
 
 export function ChapterLibrary({ publicCatalog = false }: { publicCatalog?: boolean }) {
-  const chapterNotesEnabled = import.meta.env.VITE_CHAPTER_NOTES_ENABLED === 'true'
   const [chapters, setChapters] = useState<Chapter[]>([])
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(true)
