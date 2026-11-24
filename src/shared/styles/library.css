@@ -6,6 +6,9 @@
 .library-list a:hover strong { text-decoration: underline; }
 .library-list a small { margin-top: 3px; }
 .library-list a > span:nth-child(2) { color: #5a6276; font-size: .85rem; }
+.unified-chapters { list-style: none; padding: 0; margin: 24px 0; border-top: 1px solid #e6dfcc; }
+.unified-chapters li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 0; border-bottom: 1px solid #e6dfcc; }
+.unified-chapters li div { display: flex; flex-wrap: wrap; gap: 8px; }
 .chapter-sections { display: grid; gap: 16px; }
 .chapter-section-text { white-space: pre-wrap; }
 @media (max-width: 420px) {

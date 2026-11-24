@@ -100,7 +100,7 @@ export function Practice() {
   }
   return <ScreenLayout>
     <div className="practice-heading"><div><p className="screen-kicker">QUESTION PRACTICE</p><h1>Practice</h1></div>{question && <span className="counter">QUESTION {index + 1} OF {questions.length}</span>}</div>
-    {chapter && <p>Chapter: {chapter} · <Link to="/study/library">All chapters</Link></p>}
+    {chapter && <p>Chapter: {chapter} · <Link to="/app/chapters">All chapters</Link></p>}
     <div className="practice-account">{studentEmail ? <><span>Signed in as {studentEmail}</span><button className="outline-button" disabled={busy} onClick={signOut}>Sign out</button></> : <Link to="/sign-in">Student sign-in</Link>}</div>
     <ErrorMessage text={authError}/>
     <div className="progress-track"><div style={{ width: questions.length ? `${(index + 1) / questions.length * 100}%` : '0%' }} /></div>

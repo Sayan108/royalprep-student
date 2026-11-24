@@ -6,6 +6,7 @@ import { ErrorMessage } from '../../shared/ui/error-message/index'
 import { ScreenLayout } from '../../widgets/screen-layout/index'
 import type { ChapterProgress, StudentChapter } from '../../entities/chapter'
 import { api } from '../../shared/api/index'
+import { SandboxedDocument } from '../../shared/ui/sandboxed-document'
 import '../../shared/styles/library.css'
 
 export function ChapterReader() {
@@ -42,17 +43,23 @@ export function ChapterReader() {
   }
   const savedSection = chapter?.content.sections.find(section => section.id === chapter.progress?.sectionId)
   return <ScreenLayout>
-    <p><Link to="/app/chapters">← Chapter library</Link></p>
+    <p><Link to="/app/chapters">← Chapters</Link></p>
     <ErrorMessage text={error}/>{error && <button className="outline-button" onClick={() => void load()} disabled={loading || busy}>Reload chapter</button>}
     <SnackbarMessage message={message}/>
     {loading ? <LoadingState label="Loading chapter..."/> : chapter && <>
       <p className="screen-kicker">CHAPTER NOTES</p><h1>{chapter.content.title}</h1>
+      {chapter.content.documentHtml ? <>
+        {chapter.progress && <p>This chapter is marked as last read{chapter.progress.revision !== chapter.revision && ' (chapter updated since your last visit)'}.</p>}
+        <SandboxedDocument title={`${chapter.content.title} chapter notes`} documentHtml={chapter.content.documentHtml}/>
+        <p><button className="outline-button" disabled={busy} onClick={() => void save(chapter.content.sections[0].id)}>Mark chapter as last read</button></p>
+      </> : <>
       {chapter.progress && (savedSection ? <p>Last read: <a href={'#section-' + savedSection.id}>{savedSection.title}</a>{chapter.progress.revision !== chapter.revision && ' (chapter updated since your last visit)'}</p> : <p>Your saved section is no longer available in this revision.</p>)}
       <nav aria-label="Chapter sections"><ul>{chapter.content.sections.map(section => <li key={section.id}><a href={'#section-' + section.id}>{section.title}</a></li>)}</ul></nav>
       <div className="chapter-sections">{chapter.content.sections.map(section => <section id={'section-' + section.id} className="screen-card" key={section.id}>
         <h2>{section.title}</h2><p className="chapter-section-text">{section.body}</p>
         <button className="outline-button" disabled={busy} onClick={() => void save(section.id)}>Mark last read</button>
       </section>)}</div>
+      </>}
       {chapter.content.practiceChapter && <p><Link className="screen-button" to={'/practice?chapter=' + encodeURIComponent(chapter.content.practiceChapter)}>Practice this chapter</Link></p>}
     </>}
   </ScreenLayout>

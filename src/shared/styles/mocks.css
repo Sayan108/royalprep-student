@@ -14,5 +14,7 @@
 .mock-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
 .mock-grid button { min-height: 38px; border: 1px solid #e8dfca; border-radius: 6px; background: white; }
 .mock-grid button.active { background: #111d37; color: white; }
+.mock-grid button.answered { background: #167347; border-color: #167347; color: white; }
+.mock-grid button.active.answered { outline: 3px solid #111d37; outline-offset: 2px; }
 .mock-review { display: grid; gap: 12px; margin-top: 16px; }
 @media (max-width: 700px) { .mock-layout, .mock-builder-fields { grid-template-columns: 1fr; } }

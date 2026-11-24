@@ -7,8 +7,46 @@ import { api } from '../../shared/api/index'
 import '../../shared/styles/flashcards.css'
 
 type Card = { id: string; version: number; chapter: string; front: string; back: string; dueAt: number; intervalDays: number }
+type SharedDeck = { id: string; title: string; cards: { id: string; front: string; back: string }[] }
 type Rating = 'again' | 'hard' | 'good' | 'easy'
 type PendingReview = { cardId: string; eventId: string; expectedVersion: number; rating: Rating }
+
+function SharedFlashcards() {
+  const [decks, setDecks] = useState<SharedDeck[]>()
+  const [selected, setSelected] = useState('')
+  const [index, setIndex] = useState(0)
+  const [flipped, setFlipped] = useState(false)
+  const [error, setError] = useState('')
+  const [retry, setRetry] = useState(0)
+  useEffect(() => {
+    const controller = new AbortController()
+    setError(''); setDecks(undefined)
+    api<SharedDeck[]>('/public/flashcard-decks', { signal: controller.signal })
+      .then(setDecks)
+      .catch(e => { if (!controller.signal.aborted) setError(e instanceof Error ? e.message : 'Unable to load shared decks.') })
+    return () => controller.abort()
+  }, [retry])
+  const deck = decks?.find(item => item.id === selected)
+  const card = deck?.cards[index]
+  return <section className="screen-card">
+    <h2>Shared chapter decks</h2><p>Browse shared cards. Review scheduling applies to personal cards only.</p>
+    <ErrorMessage text={error}/>{error && <button className="outline-button" type="button" onClick={() => setRetry(value => value + 1)}>Retry shared decks</button>}
+    {!decks && !error ? <LoadingState label="Loading shared decks..."/> : decks && (decks.length ? <>
+      <label>Chapter deck<select value={selected} onChange={event => { setSelected(event.target.value); setIndex(0); setFlipped(false) }}>
+        <option value="">Choose a chapter</option>{decks.map(item => <option key={item.id} value={item.id}>{item.title} ({item.cards.length})</option>)}
+      </select></label>
+      {deck && (card ? <>
+        <p>Card {index + 1} of {deck.cards.length}</p>
+        <p className="flash-text">{flipped ? card.back : card.front}</p>
+        <div className="flash-actions">
+          <button className="outline-button" type="button" onClick={() => setFlipped(value => !value)}>{flipped ? 'Show front' : 'Show answer'}</button>
+          <button className="outline-button" type="button" disabled={index === 0} onClick={() => { setIndex(value => value - 1); setFlipped(false) }}>Previous</button>
+          <button className="outline-button" type="button" disabled={index === deck.cards.length - 1} onClick={() => { setIndex(value => value + 1); setFlipped(false) }}>Next</button>
+        </div>
+      </> : <p>This deck has no cards.</p>)}
+    </> : <p>No shared decks are published yet.</p>)}
+  </section>
+}
 
 export function Flashcards() {
   const [cards, setCards] = useState<Card[]>()
@@ -69,7 +107,8 @@ export function Flashcards() {
     } catch (e) { setError((e as Error).message) }
     finally { setBusy(false) }
   }
-  return <ScreenLayout><p className="screen-kicker">RETAIN AND REVIEW</p><h1>My flashcards</h1><p>Create personal cards and review them across sessions. Approved shared decks are not available yet.</p>
+  return <ScreenLayout><p className="screen-kicker">RETAIN AND REVIEW</p><h1>Flashcards</h1><p>Browse shared chapter decks or create personal cards for scheduled review.</p>
+    <SharedFlashcards/>
     <ErrorMessage text={error}/><SnackbarMessage message={message}/>
     {error && <div className="flash-actions">{pending && <button className="outline-button" type="button" disabled={busy} onClick={() => review(pending)}>Retry review</button>}<button className="outline-button" type="button" disabled={busy} onClick={load}>Reload cards</button></div>}
     {loading ? <LoadingState label="Loading flashcards..."/> : cards && <>

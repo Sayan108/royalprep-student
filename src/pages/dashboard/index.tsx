@@ -19,6 +19,8 @@ export function Dashboard() {
   const [attemptError, setAttemptError] = useState('')
   const [chapterNotes, setChapterNotes] = useState<ChapterSummary[]>()
   const [chapterError, setChapterError] = useState('')
+  const [mistakeCount, setMistakeCount] = useState<number>()
+  const [mistakeError, setMistakeError] = useState('')
   useEffect(() => {
     const controller = new AbortController()
     api<StoredStudyPlan>('/student/study-plan', { signal: controller.signal }, false, true)
@@ -28,6 +30,8 @@ export function Dashboard() {
       .catch(e => { if (!controller.signal.aborted) setCardError((e as Error).message) })
     api<AttemptSummary[]>('/student/attempts', { signal: controller.signal }, false, true)
       .then(setAttempts).catch(e => { if (!controller.signal.aborted) setAttemptError(e instanceof Error ? e.message : 'Unable to load mocks.') })
+    api<{ questionId: string }[]>('/student/mistakes', { signal: controller.signal }, false, true)
+      .then(items => setMistakeCount(items.length)).catch(e => { if (!controller.signal.aborted) setMistakeError(e instanceof Error ? e.message : 'Unable to load mistakes.') })
     if (chapterNotesEnabled) {
       api<ChapterSummary[]>('/student/chapters', { signal: controller.signal }, false, true)
         .then(setChapterNotes).catch(e => { if (!controller.signal.aborted) setChapterError(e instanceof Error ? e.message : 'Unable to load chapter notes.') })
@@ -43,7 +47,8 @@ export function Dashboard() {
       {chapterNotesEnabled && <section className="screen-card"><h2>Continue reading</h2><ErrorMessage text={chapterError}/>
         {!chapterNotes && !chapterError ? <LoadingState label="Loading chapter notes..."/> : recentChapter ? <><p>{recentChapter.title}</p><Link className="outline-button" to={'/app/chapters/' + recentChapter.id}>Continue reading</Link></> : !chapterError && <><p>No reading progress yet.</p><Link className="outline-button" to="/app/chapters">Browse chapter notes</Link></>}
       </section>}
-      <section className="screen-card"><h2>Practice questions</h2><p>Review published questions and explanations.</p><Link className="outline-button" to="/study/library">Browse chapters</Link></section>
+      <section className="screen-card"><h2>Practice questions</h2><p>Review published questions and explanations.</p><Link className="outline-button" to="/app/chapters">Browse chapters</Link></section>
+      <section className="screen-card"><h2>My mistakes</h2><ErrorMessage text={mistakeError}/>{mistakeCount !== undefined ? <p>{mistakeCount} {mistakeCount === 1 ? 'question' : 'questions'} to revisit.</p> : !mistakeError && <LoadingState label="Loading mistakes..."/>}<Link className="outline-button" to="/app/mistakes">Review mistakes</Link></section>
       <section className="screen-card"><h2>Study plan</h2><ErrorMessage text={error}/>{!stored && !error ? <LoadingState label="Loading study plan..."/> : stored?.plan ? <><p>{stored.plan.tasks.filter(task => task.done).length} of {stored.plan.tasks.length} tasks completed. Target: {stored.plan.targetDate}.</p>{next.length > 0 && <ul>{next.map(task => <li key={task.id}>{task.title} — {task.dueDate}</li>)}</ul>}</> : !error && <p>No study plan saved yet.</p>}<Link className="outline-button" to="/tools/planner">Open planner</Link></section>
       <section className="screen-card"><h2>Mocks and results</h2><ErrorMessage text={attemptError}/>
         {!attempts && !attemptError ? <LoadingState label="Loading mocks..."/> : attempts && <>

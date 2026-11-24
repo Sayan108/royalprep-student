@@ -1,5 +1,5 @@
 export type ChapterSection = { id: string; title: string; body: string }
-export type ChapterContent = { title: string; practiceChapter: string; sections: ChapterSection[] }
+export type ChapterContent = { title: string; practiceChapter: string; sections: ChapterSection[]; documentHtml?: string }
 export type ChapterRevision = { revision: number; content: ChapterContent; createdAt: string }
 export type ChapterPublication = ChapterRevision & { publishedAt: string | null; sourceRevision: number | null }
 export type ChapterState = { id: string; currentRevision: number; draftRevision: number | null; publishedRevision: number | null; draft: ChapterRevision; history: ChapterPublication[] }

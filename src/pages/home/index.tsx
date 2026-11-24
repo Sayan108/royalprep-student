@@ -51,14 +51,14 @@ export function Home() {
         <p>Prepare with single-best-answer questions and explanations.</p>
         <div className="home-links">
           <Link className="home-link" to="/practice"><span className="home-icon" aria-hidden="true">◇</span><span><strong>Practice questions</strong><small>Answer published questions and review explanations.</small></span><span aria-hidden="true">→</span></Link>
-          <Link className="home-link" to="/study/library"><span className="home-icon" aria-hidden="true">▤</span><span><strong>Chapter library</strong><small>Browse chapters with published practice questions.</small></span><span aria-hidden="true">→</span></Link>
+          <Link className="home-link" to="/app/chapters"><span className="home-icon" aria-hidden="true">▤</span><span><strong>Chapters</strong><small>Browse chapters with published practice questions.</small></span><span aria-hidden="true">→</span></Link>
           <Link className="home-link" to="/tools/planner"><span className="home-icon" aria-hidden="true">◇</span><span><strong>Study planner</strong><small>Build an editable schedule for your preparation.</small></span><span aria-hidden="true">→</span></Link>
           <Link className="home-link" to="/app/mocks"><span className="home-icon" aria-hidden="true">◷</span><span><strong>Custom mocks and results</strong><small>Build a timed mock and review your answers.</small></span><span aria-hidden="true">→</span></Link>
         </div>
       </section>
       <section className="home-wrap home-row" id="access">
-        <div><h2>Part A access</h2><p>Practice is currently available without a subscription. View the temporary plans before checkout is connected.</p></div>
-        <Link className="home-text-link" to="/pricing">View plans <span aria-hidden="true">→</span></Link>
+        <div><h2>Access</h2><p>Available study features are free for now.</p></div>
+        <Link className="home-text-link" to="/pricing">View access details <span aria-hidden="true">→</span></Link>
       </section>
       <section className="home-wrap home-faq" id="faq">
         <h2>Frequently asked questions</h2>

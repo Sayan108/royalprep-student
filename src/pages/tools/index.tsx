@@ -10,7 +10,7 @@ export function Tools() {
       <section className="screen-card"><h2>Orientation guide</h2><p>Understand the preparation journey and how to use RoyalPrep.</p><Link className="outline-button" to="/tools/orientation">Open guide</Link></section>
       <section className="screen-card"><h2>Daily quiz</h2><p>Answer five questions every day.</p><Link className="outline-button" to="/app/daily-quiz">Start daily quiz</Link></section>
       <section className="screen-card"><h2>Learning resources</h2><p>Revision packs, audio, videos and recall sheets.</p><Link className="outline-button" to="/app/resources">Browse resources</Link></section>
-      <section className="screen-card"><h2>Chapter catalog</h2><p>Search chapters with published practice questions.</p><Link className="outline-button" to="/course">Browse chapters</Link></section>
+      <section className="screen-card"><h2>Chapters</h2><p>Search chapters with published practice questions.</p><Link className="outline-button" to="/app/chapters">Browse chapters</Link></section>
       <section className="screen-card"><h2>Personal flashcards</h2><p>Create cards and schedule your reviews after signing in.</p><Link className="outline-button" to="/tools/flashcards">Open flashcards</Link></section>
       <section className="screen-card"><h2>More tools</h2><p>Exam dates and the daily quiz are not available yet.</p></section>
     </div>

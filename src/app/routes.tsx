@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom'
+import { Navigate, Route } from 'react-router-dom'
 import { RequireSession } from './guards/RequireSession'
 import { Home } from '../pages/home/index'
 import { ChapterLibrary } from '../pages/chapter-library/index'
@@ -21,6 +21,8 @@ import { OrientationGuide } from '../pages/orientation-guide/index'
 import { LearningResources } from '../pages/learning-resources/index'
 import { DailyChallenge } from '../pages/daily-challenge/index'
 import { Notifications } from '../pages/notifications/index'
+import { RevisionPack } from '../pages/revision-pack/index'
+import { RecallBank } from '../pages/recall-bank/index'
 
 export const studentRoutes = <>
   <Route path="/" element={<Home/>}/>
@@ -28,9 +30,11 @@ export const studentRoutes = <>
   <Route path="/tools/eligibility" element={<EligibilityCalculator/>}/>
   <Route path="/tools/orientation" element={<OrientationGuide/>}/>
   <Route path="/app/resources" element={<RequireSession><LearningResources/></RequireSession>}/>
+  <Route path="/app/resources/revision-packs/:code" element={<RequireSession><RevisionPack/></RequireSession>}/>
+  <Route path="/app/resources/recalls/:source" element={<RequireSession><RecallBank/></RequireSession>}/>
   <Route path="/app/daily-quiz" element={<RequireSession><DailyChallenge/></RequireSession>}/>
   <Route path="/app/daily-mock" element={<RequireSession><DailyChallenge mock/></RequireSession>}/>
-  <Route path="/course" element={<RequireSession><ChapterLibrary publicCatalog/></RequireSession>}/>
+  <Route path="/course" element={<Navigate to="/app/chapters" replace/>}/>
   <Route path="/course/:chapter" element={<RequireSession><ChapterPreview/></RequireSession>}/>
   <Route path="/tools" element={<RequireSession><Tools/></RequireSession>}/>
   <Route path="/tools/planner" element={<RequireSession><StudyPlanner/></RequireSession>}/>
@@ -47,7 +51,7 @@ export const studentRoutes = <>
   <Route path="/app/profile" element={<RequireSession><StudentProfile/></RequireSession>}/>
   <Route path="/app/notifications" element={<RequireSession><Notifications/></RequireSession>}/>
   <Route path="/tools/flashcards" element={<RequireSession><Flashcards/></RequireSession>}/>
-  <Route path="/study/library" element={<RequireSession><ChapterLibrary/></RequireSession>}/>
+  <Route path="/study/library" element={<Navigate to="/app/chapters" replace/>}/>
   <Route path="/practice" element={<RequireSession><Practice/></RequireSession>}/>
   <Route path="/sign-in" element={<StudentLogin/>}/>
 </>
